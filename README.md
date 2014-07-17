@@ -1,5 +1,7 @@
 # syslog_ng
 
+[![Build Status](https://travis-ci.org/ihrwein/puppet-syslog_ng.png?branch=master)](https://travis-ci.org/ihrwein/puppet-syslog_ng)
+
 #### Table of Contents
 
 1. [Overview](#overview)
