@@ -9,9 +9,8 @@
   "issues_url": "https://github.com/ihrwein/puppet-syslog_ng/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
+      "name": "puppetlabs/stdlib",
       "version_requirement": ">= 1.0.0"
     }
   ]
 }
-
