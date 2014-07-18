@@ -1,41 +1,28 @@
-# == Class: syslog_ng
-#
-# Full description of class syslog_ng here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { 'syslog_ng':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
-#
-class syslog_ng {
+# Copyright 2014 Tibor Benke
+
+class syslog_ng (
+  $config_file = '/etc/syslog-ng/syslog-ng.conf',
+  $sbin_path = '/usr/sbin',
+  $purge_syslog_ng_conf = true
+  ) {
+
+  include syslog_ng::reload
+
+  $user = 'tibi'
+  $group = 'btibi'
+
+  $syslog_ng_conf_content = $purge_syslog_ng_conf ? {
+    false => undef,
+    true  => 'Syslog-ng configuration is managed by Puppet',
+  }
 
 
+  file { $config_file:
+    ensure  => present,
+    path    => $config_file,
+    user    => $user,
+    group   => $group,
+    content => $syslog_ng_conf_content,
+    notify  => Exec['syslog_ng_reload']
+  }
 }
