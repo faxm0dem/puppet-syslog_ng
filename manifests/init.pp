@@ -3,7 +3,7 @@
 class syslog_ng (
   $config_file = '/etc/syslog-ng/syslog-ng.conf',
   $sbin_path = '/usr/sbin',
-  $purge_syslog_ng_conf = true
+  $purge_syslog_ng_conf = false
   ) {
 
   include syslog_ng::reload
