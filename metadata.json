@@ -7,6 +7,20 @@
   "source": "https://github.com/ihrwein/puppet-syslog_ng",
   "project_page": "https://github.com/ihrwein/puppet-syslog_ng",
   "issues_url": "https://github.com/ihrwein/puppet-syslog_ng/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem" : "Debian",
+      "operatingsystemrelease":[ "5.0", "6.0", "7.0" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04",
+        "12.04",
+        "10.04"
+      ]
+    }
+  ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
