@@ -1,1 +1,2 @@
 .gemfile.lock
+spec/fixtures/modules/*

@@ -1,4 +1,3 @@
-#
 class syslog_ng::reload {
 
   $syslog_ng_ctl_full_path = "${syslog_ng::sbin_path}/syslog-ng-ctl"
