@@ -9,8 +9,8 @@ describe 'generate_options' do
                     'create_dirs' => 'yes'}}
     let(:expected) {
 "options {
-    log_fifo_size(2048);
     create_dirs(yes);
+    log_fifo_size(2048);
 };"
 
     }

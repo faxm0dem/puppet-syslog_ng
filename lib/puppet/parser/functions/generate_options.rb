@@ -3,6 +3,7 @@ require 'stringio'
 module Puppet::Parser::Functions
   newfunction(:generate_options, :type => :rvalue) do |args|
     options = args[0]
+    sorted_options = Hash[options.sort]
     buffer = StringIO.new
     buffer << "options {\n"
     indent = '    '
@@ -11,7 +12,7 @@ module Puppet::Parser::Functions
       return ""
     end
 
-    options.each do |option, value|
+    sorted_options.each do |option, value|
       buffer << indent
       buffer << option
       buffer << '('
