@@ -11,8 +11,13 @@ class syslog_ng (
 
   validate_bool($purge_syslog_ng_conf)
 
+  package { "$syslog_ng::params::package_name":
+    ensure => present
+  }
 
   $syslog_ng_conf_content = template('syslog_ng/syslog-ng.conf.erb')
+
+  include syslog_ng::reload
 
   file { $config_file:
     ensure  => present,
@@ -22,5 +27,10 @@ class syslog_ng (
     content => $syslog_ng_conf_content,
     notify  => Exec['syslog_ng_reload'],
     require => Package[$syslog_ng::params::package_name]
+  }
+
+  service { "$syslog_ng::params::service_name":
+    ensure  =>  running,
+    require =>  File[$config_file]
   }
 }

@@ -12,6 +12,7 @@ class syslog_ng::params {
     'use_dns' => 'no'
   }
 
-  $package_name = 'syslog-ng'
+  $package_name = 'syslog-ng-core'
+  $service_name = 'syslog-ng'
 
 }
