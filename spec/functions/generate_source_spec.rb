@@ -54,14 +54,4 @@ describe 'generate_source' do
     end
   end
 
-#  context "Without options" do
-#
-#    it "Should generate nothing" do
-#      result = scope.function_generate_options([{}])
-#      expect(result).to be_a String
-#      expect(result).to eq ""
-#    end
-#
-#  end
-
 end
