@@ -5,10 +5,10 @@ describe 'generate_source' do
   let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
 
     context "With simple options" do
-        let(:title) { 's_gsoc' } 
-        let(:params) {{ 'type' => 'file',
-                        'options' => { 'file' => "/var/log/apache.log",
-                                       'follow_freq' => 1}
+        let(:title) { 's_gsoc' }
+        let(:type)  { 'file' }
+        let(:options) {{ 'file' => "/var/log/apache.log",
+                         'follow_freq' => 1
         }}
         let(:expected) {
 'source s_gsoc {
@@ -18,18 +18,18 @@ describe 'generate_source' do
     );
 };'     }
         it 'Should generate a simple file source' do
-            result = scope.function_generate_source([title, params])
+            result = scope.function_generate_source([title, type, options])
             expect(result).to be_a String
             expect(result).to eq expected
         end
     end
 
     context "With options" do
-        let(:title) { 's_gsoc' } 
-        let(:params) {{ 'type' => 'file',
-                        'options' => { 'file' => "/var/log/apache.log",
-                                       'follow_freq' => 1,
-                                       'flags' => ['no_parse','validate_utf8']}
+        let(:title) { 's_gsoc' }
+        let(:type)  { 'file' }
+        let(:options) {{ 'file' => "/var/log/apache.log",
+                         'follow_freq' => 1,
+                         'flags' => ['no_parse','validate_utf8']
         }}
         let(:expected) {
 'source s_gsoc {
@@ -41,7 +41,7 @@ describe 'generate_source' do
 };'     }
 
         it 'Should fill the options statement' do
-          result = scope.function_generate_source([title, params])
+          result = scope.function_generate_source([title, type, options])
           expect(result).to be_a String
           expect(result).to eq expected
         end

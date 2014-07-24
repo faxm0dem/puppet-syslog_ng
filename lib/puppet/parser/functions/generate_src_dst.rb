@@ -5,14 +5,12 @@ module Puppet::Parser::Functions
     # needs a value check
     statement = args[0]
     id = args[1]
-    params = args[2]
+    type = args[2]
+    options = args[3]
     buffer = StringIO.new
     indent = '    '
     buffer << "#{statement} #{id} {\n"
     
-    type = params["type"]
-    options = params["options"]
-
     buffer << indent << type <<  "(\n"
     built_options = []
     
