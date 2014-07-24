@@ -11,7 +11,8 @@ class syslog_ng::params {
     'dir_perm' => '0755',
     'use_dns' => 'no'
   }
-
+  
+  $config_file  = '/etc/syslog-ng/syslog-ng.conf'
   $package_name = 'syslog-ng-core'
   $service_name = 'syslog-ng'
 

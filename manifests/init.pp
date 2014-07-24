@@ -1,7 +1,7 @@
 # Copyright 2014 Tibor Benke
 
 class syslog_ng (
-  $config_file          = '/etc/syslog-ng/syslog-ng.conf',
+  $config_file          = $::syslog_ng::params::config_file,
   $sbin_path            = '/usr/sbin',
   $purge_syslog_ng_conf = false,
   $user                 = 'root',
