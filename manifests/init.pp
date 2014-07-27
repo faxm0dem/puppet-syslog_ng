@@ -17,21 +17,17 @@ class syslog_ng (
     ensure => present
   }
 
-  concat { $::syslog_ng::params::config_file:
-    ensure => present
-  }
- 
-  file { $config_file:
-    ensure  => present,
-    path    => $config_file,
-    owner   => $user,
-    group   => $group,
-    notify  => Exec['syslog_ng_reload'],
+  concat { "$::syslog_ng::params::config_file":
+    ensure => present,
+    path   => $::syslog_ng::params::config_file,
+    owner  => $user,
+    group  => $group,
+    notify =>  Exec['syslog_ng_reload'],
     require => Package[$syslog_ng::params::package_name]
   }
-
+ 
   service { "$syslog_ng::params::service_name":
     ensure  =>  running,
-    require =>  File[$config_file]
+    require =>  Concat[$config_file]
   }
 }

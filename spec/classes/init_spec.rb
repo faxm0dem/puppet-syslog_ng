@@ -11,7 +11,6 @@ describe 'syslog_ng' do
       :purge_syslog_ng_conf => true
     }}
     it {
-      should contain_file('/tmp/puppet-test/syslog-ng.conf')
       should contain_package('syslog-ng-core')
       should contain_service('syslog-ng')
     }
