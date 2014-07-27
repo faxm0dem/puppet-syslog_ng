@@ -4,6 +4,7 @@ describe 'syslog_ng::config' do
 
     let(:title) { 'v_gsoc' }
     let(:facts)  {{ :concat_basedir => '/dne' }}
+    let(:pre_condition) { 'include syslog_ng' }
 
     context 'without params' do
         it do 
