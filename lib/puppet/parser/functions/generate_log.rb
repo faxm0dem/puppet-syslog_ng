@@ -1,5 +1,8 @@
-require 'require_relative'
-require_relative 'log'
+if RUBY_VERSION >= '1.9.2'
+    require_relative 'log'
+else
+    require File.join(File.expand_path(File.dirname(__FILE__)), './log')
+end
 
 module Puppet::Parser::Functions
   newfunction(:generate_log, :type => :rvalue) do |args|
