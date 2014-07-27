@@ -5,8 +5,7 @@ class syslog_ng (
   $sbin_path            = '/usr/sbin',
   $purge_syslog_ng_conf = false,
   $user                 = 'root',
-  $group                = 'root',
-  $options              = $::syslog_ng::params::options
+  $group                = 'root'
 ) inherits syslog_ng::params {
 
   validate_bool($purge_syslog_ng_conf)
