@@ -11,20 +11,21 @@ class syslog_ng (
 
   validate_bool($purge_syslog_ng_conf)
 
+  include syslog_ng::reload
+
   package { "$syslog_ng::params::package_name":
     ensure => present
   }
 
-  $syslog_ng_conf_content = template('syslog_ng/syslog-ng.conf.erb')
-
-  include syslog_ng::reload
-
+  concat { $::syslog_ng::params::config_file:
+    ensure => present
+  }
+ 
   file { $config_file:
     ensure  => present,
     path    => $config_file,
-    owner    => $user,
+    owner   => $user,
     group   => $group,
-    content => $syslog_ng_conf_content,
     notify  => Exec['syslog_ng_reload'],
     require => Package[$syslog_ng::params::package_name]
   }

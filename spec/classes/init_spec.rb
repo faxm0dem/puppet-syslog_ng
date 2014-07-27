@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe 'syslog_ng' do
 
+  let(:facts)  {{ :concat_basedir => '/dne' }}
+
   context 'With not default params' do
     let(:params) {{
       :config_file => '/tmp/puppet-test/syslog-ng.conf',
