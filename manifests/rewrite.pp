@@ -1,9 +1,9 @@
-define syslog_ng::template (
+define syslog_ng::rewrite (
 	$params = []
 ) {
-    $type = 'template'
+    $type = 'rewrite'
     $id = $title
-    $order = '20'
+    $order = '30'
     
     concat::fragment { $title:
         target  => $::syslog_ng::params::config_file,
