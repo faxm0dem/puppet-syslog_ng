@@ -4,6 +4,6 @@ else
     require File.join(File.expand_path(File.dirname(__FILE__)), './statement')
 end
 
-describe "syslog_ng::options" do
-    it_behaves_like "Statement", 'id', 'options'
+describe "syslog_ng::rewrite" do
+    it_behaves_like "Statement", 'id', 'rewrite'
 end
