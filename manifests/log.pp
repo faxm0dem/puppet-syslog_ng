@@ -1,9 +1,9 @@
 define syslog_ng::log (
-	$options = []
+	$params = []
 ) {
 
     concat::fragment { $title:
         target  => $::syslog_ng::params::config_file,
-        content => generate_log($options)
+        content => generate_log($params)
     }
 }
