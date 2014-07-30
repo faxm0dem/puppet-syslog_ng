@@ -1,9 +1,10 @@
 define syslog_ng::config (
-	$content = ""
+	$content = "",
+    $order => '5'
 ) {
-
     concat::fragment { $title:
         target  => $syslog_ng::params::config_file,
-        content => $content
+        content => $content,
+        order => $order
     }
 }
