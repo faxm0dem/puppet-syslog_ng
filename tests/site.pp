@@ -1,11 +1,26 @@
+#import 'nodes.pp'
+
+include syslog_ng
+
+syslog_ng::config {'version':
+    content => '@version: 3.6',
+    order => '0'
+}
+
+syslog_ng::options { 'global_options':
+	options => {
+		'bad_hostname' => "'no'"
+	}
+}
+
 syslog_ng::source { 's_gsoc':
-    params => {
-        'type' => 'tcp',
-        'options' => {
-            'ip' => "'127.0.0.1'",
-            'port' => 1999
-        }
-    }
+	params => {
+	    'type' => 'tcp',
+	    'options' => {
+	    	'ip' => "'127.0.0.1'",
+	    	'port' => 1999
+	    }
+	}
 }
 
 syslog_ng::source {'s_external':
@@ -33,5 +48,22 @@ syslog_ng::source {'s_external':
             ]
         }
     ]
-} 
+}
 
+syslog_ng::destination { 'd_udp':
+    params => {
+        'type' => 'udp',
+        'options' => [
+            "'127.0.0.1'",
+            {'port' => '1999'},
+            {'localport' => '999'}
+        ]
+    }
+}
+
+syslog_ng::log {'l':
+    params => [
+        {'source' => 's_external'},
+        {'destination' => 'd_udp'}
+    ]
+}

@@ -1,8 +1,8 @@
-syslog_ng::destination { 'd_tcp':
+syslog_ng::destination { 'd_udp':
     params => {
-        'type' => 'tcp',
+        'type' => 'udp',
         'options' => [
-            '"10.1.2.3"',
+            "'127.0.0.1'",
             {'port' => '1999'},
             {'localport' => '999'}
         ]
