@@ -19,7 +19,7 @@ module Puppet::Parser::Functions
       buffer << value
       buffer << ");\n"
     end
-    buffer << '};'
+    buffer << "};\n"
     buffer.string
   end
 end
