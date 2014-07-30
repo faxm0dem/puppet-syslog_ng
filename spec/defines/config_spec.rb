@@ -1,22 +1,9 @@
-require 'spec_helper'
+if RUBY_VERSION >= '1.9.2'
+    require_relative 'statement'
+else
+    require File.join(File.expand_path(File.dirname(__FILE__)), './statement')
+end
 
-describe 'syslog_ng::config' do
-
-    let(:title) { 'v_gsoc' }
-    let(:facts)  {{ :concat_basedir => '/dne' }}
-    let(:pre_condition) { 'include syslog_ng' }
-
-    context 'without params' do
-        it do 
-            should contain_concat__fragment(title)
-        end
-    end
-
-    context 'with params' do
-        let(:content) { '# Some content, which should be written into the config file' } 
-             
-        it do 
-            should contain_concat__fragment(title)
-        end
-    end
+describe "syslog_ng::destination" do
+    it_behaves_like "Statement", 'id', 'destination'
 end
