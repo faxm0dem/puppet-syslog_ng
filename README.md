@@ -16,20 +16,76 @@
 6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
+This module lets you generate syslog-ng configuration from puppet. It supports
+all kind of statements, such as sources, destinations, templates, and so on. After
+defining them, you can combine them into a log path. This module also cares about
+installing syslog-ng, or reloading it after a configuration file change.
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+It works well with the following Puppet versions:
+  * 2.7.9
+  * 2.7.13
+  * 2.7.17
+  * 3.1.0
+  * 3.2.3
+  * 3.3.1
+  * 3.3.2
+  * 3.4.0
+  * 3.4.3
+
+Tested Ruby version:
+  * 1.8.7
+  * 1.9.2
+
+*NOTE*: The module was tested with Travis with these versions. It may work well of
+other Puppet or Ruby version. If that's so, please hit me up.
 
 ## Module Description
+This module integrates with syslog-ng. It supports it's configuration model and
+able to generate configurations. You can create new sources and destinations as
+Puppet resources, under the hood they are just defined resource types.
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+The supported statements:
+ * options
+ * template
+ * rewrite
+ * parser
+ * filter
+ * source
+ * destination
+ * log
+ * +1: config, wich lets you insert a premade configuration snippet.
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+Each type is under the `syslog_ng::` namespace, so you can use them like this:
+```
+syslog_ng::source { 's_gsoc':
+    params => {
+        'type' => 'tcp',
+        'options' => [
+            {'ip' => "'127.0.0.1'"},
+            {'port' => 1999}
+        }]
+    }
+}
+```
+### Configuration syntax
+Every statement has the same layout. They can accept a `params` parameter, which
+can be a hash or an array of hashed. Each hash should have a `type` and `options`
+key.
+
+The value of the `type` represents the type of the statements, in case of
+sources this can be `file`, `tcp` and so on.
+
+The value of the `options` is an array of strings and hashes. You have to take care
+of the quotation when using strings. The inner quotation must be a single quote, and
+the outer one a double, like `"'this string'"`. By using this convention, the module
+will generate correct configuration files. If the option array is empty, it generates
+nothing.
+
+As I mentioned, there are strings and hashed in an option. In case of hashed, they
+must contain only one key. This key will identify the name of the parameter and its
+value must be an array of strings. If that would contain only one item, the value can
+be simply just a string.
+
 
 ## Setup
 
