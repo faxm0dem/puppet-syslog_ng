@@ -31,7 +31,7 @@ module Statement
             end
 
             if option.is_a? String
-                buffer << indent << '"' << option << '",' << "\n"
+                buffer << indent <<  option << ',' << "\n"
             elsif option.is_a? Hash
                 build_parameter(option, is_last, indent, buffer)
             end

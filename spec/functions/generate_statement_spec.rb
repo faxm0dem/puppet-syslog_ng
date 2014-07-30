@@ -8,22 +8,22 @@ describe 'generate_statement' do
     let(:param1) {{
         'type' => 'subst',
         'options' => [
-            "string",
-            "replacement",
+            %q!'string'!,
+            %q!'replacement'!,
             { 'value' => ['field'] },
             { 'flags' => []}
         ]
     }}
     let(:param1_expected) {
-'rewrite r_name {
+%q!rewrite r_name {
     subst(
-        "string",
-        "replacement",
+        'string',
+        'replacement',
         value(field),
         flags()
     );
 };
-'}
+!}
 #    it 'Should raise an exception with not Hash or Array param' do
 #        result = scope.function_generate_statement([title, type, param1])
 #        expect{scope.function_generate_statement([title, type, param1])}.to raise_error
@@ -33,8 +33,8 @@ describe 'generate_statement' do
         let(:param1) {{
             'type' => 'subst',
             'options' => [
-                "string",
-                "replacement",
+                %q!'string'!,
+                %q!'replacement'!,
                 { 'value' => 'field' },
                 { 'flags' => ''}
             ]
@@ -68,13 +68,13 @@ describe 'generate_statement' do
         let(:params) {[
             { 'type' => 'udp',
               'options' => [
-                {'ip' => ['192.168.42.2']},
+                {'ip' => [%q!'192.168.42.2'!]},
                 {'port' => [514]}
                 ]
             },
             { 'type' => 'tcp',
               'options' => [
-                {'ip' => ['192.168.42.2']},
+                {'ip' => [%q!'192.168.42.2'!]},
                 {'port' => [514]}
                 ]
             },
@@ -82,7 +82,7 @@ describe 'generate_statement' do
               'type' => 'syslog',
               'options' => [
                 {'flags' => ['no-multi-line', 'no-parse']},
-                {'ip' => ['10.65.0.5']},
+                {'ip' => [%q!'10.65.0.5'!]},
                 {'keep-alive' => ['yes']},
                 {'keep_hostname' => ['yes']},
                 {'transport' => ['udp']}
@@ -90,24 +90,24 @@ describe 'generate_statement' do
             }
         ]}
       let(:expected) {
-'source s_external {
+%q!source s_external {
     udp(
-        ip(192.168.42.2),
+        ip('192.168.42.2'),
         port(514)
     );
     tcp(
-        ip(192.168.42.2),
+        ip('192.168.42.2'),
         port(514)
     );
     syslog(
         flags(no-multi-line, no-parse),
-        ip(10.65.0.5),
+        ip('10.65.0.5'),
         keep-alive(yes),
         keep_hostname(yes),
         transport(udp)
     );
 };
-'}
+!}
 
         it 'Should generate source rule' do
             result = scope.function_generate_statement([title, type, params])
