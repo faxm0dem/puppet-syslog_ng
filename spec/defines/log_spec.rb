@@ -1,21 +1,9 @@
-require 'spec_helper'
+if RUBY_VERSION >= '1.9.2'
+    require_relative 'statement'
+else
+    require File.join(File.expand_path(File.dirname(__FILE__)), './statement')
+end
 
 describe "syslog_ng::log" do
-
-    let(:pre_condition) { 'include syslog_ng' }
-
-    context "with params" do
-        let(:title) { 'l_gsoc' }
-        let(:statements) {{
-            'source' => 's_gsoc',
-            'source' => 's_local',
-            'destination' => 'd_local'                
-        }} 
-        let(:facts)  {{ :concat_basedir => '/dne' }}
-     
-        it do 
-            should contain_concat__fragment(title)
-        end
-
-    end
+    it_behaves_like "Statement", 'id', 'log'
 end
