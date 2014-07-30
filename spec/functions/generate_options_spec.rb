@@ -11,7 +11,8 @@ describe 'generate_options' do
 "options {
     create_dirs(yes);
     log_fifo_size(2048);
-};"
+};
+"
 
     }
 
