@@ -21,23 +21,7 @@ all kind of statements, such as sources, destinations, templates, and so on. Aft
 defining them, you can combine them into a log path. This module also cares about
 installing syslog-ng, or reloading it after a configuration file change.
 
-It works well with the following Puppet versions:
-  * 2.7.9
-  * 2.7.13
-  * 2.7.17
-  * 3.1.0
-  * 3.2.3
-  * 3.3.1
-  * 3.3.2
-  * 3.4.0
-  * 3.4.3
-
-Tested Ruby version:
-  * 1.8.7
-  * 1.9.2
-
-*NOTE*: The module was tested with Travis with these versions. It may work well of
-other Puppet or Ruby version. If that's so, please hit me up.
+You can check the support platforms in the [Limitations](#limitations) paragraph.
 
 ## Module Description
 This module integrates with syslog-ng. It supports it's configuration model and
@@ -49,7 +33,7 @@ The supported statements:
  * template
  * rewrite
  * parser
- * filter
+ * filter (half support)
  * source
  * destination
  * log
@@ -69,17 +53,20 @@ syslog_ng::source { 's_gsoc':
 ```
 ### <a name="statement_syntax"></a> Configuration syntax
 Every statement has the same layout. They can accept a `params` parameter, which
-can be a hash or an array of hashed. Each hash should have a `type` and `options`
+can be a hash or an array of hashes. Each hash should have a `type` and `options`
 key.
 
 The value of the `type` represents the type of the statements, in case of
 sources this can be `file`, `tcp` and so on.
 
 The value of the `options` is an array of strings and hashes. You have to take care
-of the quotation when using strings. The inner quotation must be a single quote, and
-the outer one a double, like `"'this string'"`. By using this convention, the module
-will generate correct configuration files. If the option array is empty, it generates
-nothing.
+of the quotation when using strings. If the inner quotation must be a single quote,
+the outer one must be a double, like `"'this string'"`. This will generate `'this string'`.
+
+Similarly, you can write `'"this string"''` to get `"this string"`.
+
+By using this convention, the module will generate correct configuration files.
+If the option array is empty, it generates nothing.
 
 As I mentioned, there are strings and hashed in an option. In case of hashes, they
 must contain only one key. This key will identify the name of the parameter and its
@@ -94,7 +81,7 @@ Currently this module has not been published on Puppet Forge yet.
 ### Installing from source
 
 
-To install it, follow the steps:
+To get it installed, follow these steps:
  0. Make sure you have the required dependencies:
   * rake
   * ruby
@@ -111,8 +98,8 @@ To install it, follow the steps:
  ```
  $ rake build
  ```
- This will create a `tar.gz` under a `pkg` directory. Now you should be able to install
- the module:
+This will create a `tar.gz` file under a `pkg` directory. Now you should be able
+to install the module:
  ```
  # puppet puppet module install -f ihrwein-syslog_ng-VERSION.tar.gz
  ```
@@ -125,7 +112,6 @@ To install it, follow the steps:
 * It purges the content of `/etc/syslog-ng/syslog-ng.conf`
 
 
-
 ### Beginning with syslog_ng
 If you are not familiar with `syslog-ng`, I suggest you to take a look at the
 [Syslog-ng Admin Guide](http://www.balabit.com/sites/default/files/documents/syslog-ng-ose-3.5-guides/en/syslog-ng-ose-v3.5-guide-admin/html-single/index.html)  which contains all the necessary information to use this
@@ -135,37 +121,36 @@ Before you use this module, please read the part of the documentation, which cov
 
 ## Usage
 
-There is a `concat::fragment` resource in every class or defined type which represents a statement. Because statements needs to be defined before referenced in the configuration, I use an automatic ordering system. Each type has its own order value, which determines its position in the configuration file. The less an order value is, the more likely it will be at the beginning of the file. These interval of these values starts with `0` and are `strings`. Here is a table, which contains the default order values:
+There is a `concat::fragment` resource in every class or defined type which represents a statement. Because statements needs to be defined before referenced in the configuration, I use an automatic ordering system. Each type has its own order value, which determines its position in the configuration file. The less an order value is, the more likely it will be at the beginning of the file. The interval of these values starts with `0` and are `'strings'`. Here is a table, which contains the default order values:
 <a name="order_table"></a>
 
 | Name                   | Order |
 |------------------------|-------|
-| syslog_ng::config      | 5     |
-| syslog_ng::destination | 70    |
-| syslog_ng::filter      | 50    |
-| syslog_ng::log         | 80    |
-| syslog_ng::options     | 10    |
-| syslog_ng::parser      | 40    |
-| syslog_ng::rewrite     | 30    |
-| syslog_ng::source      | 60    |
-| syslog_ng::template    | 20    |
+| syslog_ng::config      | '5'     |
+| syslog_ng::destination | '70'    |
+| syslog_ng::filter      | '50'    |
+| syslog_ng::log         | '80'    |
+| syslog_ng::options     | '10'    |
+| syslog_ng::parser      | '40'    |
+| syslog_ng::rewrite     | '30'    |
+| syslog_ng::source      | '60'    |
+| syslog_ng::template    | '20'    |
 
 
 ### Classes and defined types
 
-
-
 ####Class: `syslog_ng`
-The main class of this module, by including it you get an installed `syslog-ng` with default configuration on your system.
+The main class of this module, by including it you get an installed `syslog-ng`
+with default configuration on your system.
 
 **Parameters within `syslog_ng`:**
 
 #####`config_file`
-Configures the config file path. Defaults to `/etc/syslog-ng/syslog-ng.conf` on all systems.
+Configures the config file path. Defaults to `/etc/syslog-ng/syslog-ng.conf` on
+all systems.
 #####`sbin_path`
-Configures the path, where `syslog-ng` and `syslog-ng-ctl` binaries can be found. Defaults to `/usr/sbin`.
-#####`purge_syslog_ng_conf`
-TODO
+Configures the path, where `syslog-ng` and `syslog-ng-ctl` binaries can be found.
+Defaults to `/usr/sbin`.
 #####`user`
 Configures `syslog-ng` to run as `user`.
 #####`group`
@@ -173,9 +158,14 @@ Configures `syslog-ng` to run as `group`.
 
 ####Defined type: `syslog_ng::config`
 
-There is a part of the syslog-ng DSL, which is not supported by this module (mostly the boolean operators in filters) or you want to keep some configuration snippets in their original form. This type lets you write texts into the configuration without any parsing or processing.
+There is a part of the syslog-ng DSL, which is not supported by this module (mostly
+  the boolean operators in filters) or maybe you want to keep some configuration
+  snippets in their original form. This type lets you write texts into the configuration
+  without any parsing or processing.
 
-Every configuration file begins with a `@version: <version>` line. You can use this type to write this line into the configuration, make comments or use existing snippets.
+Every configuration file begins with a `@version: <version>` line. You can use
+ this type to write this line into the configuration, make comments or use
+ existing snippets.
 
 ```puppet
 syslog_ng::config {'version':
@@ -186,10 +176,14 @@ syslog_ng::config {'version':
 
 **Parameters within `syslog_ng::config`:**
 #####`content`
-Configures the text which must be written into the configuration file. A newline character is automatically appended to its end.
+Configures the text which must be written into the configuration file. A
+ newline character is automatically appended to its end.
 
 #####`order`
-Sets the order of this snippet in the configuration file. See [Orders](#order_table). If you want to write the version line, the `order => '0'` is suggested.
+Sets the order of this snippet in the configuration file. See
+[Orders](#order_table). If you want to write the version line, the
+`order => '0'` is suggested.
+
 
 ####Defined type: `syslog_ng::destination`
 Creates a destination in your configuration.
@@ -207,10 +201,13 @@ syslog_ng::destination { 'd_udp':
 ```
 **Parameters within `syslog_ng::destination`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 ####Defined type: `syslog_ng::filter`
-Creates a filter in your configuration. It **does not support binary operators**, such as `and` or `or`. Please, use a `syslog_ng::config` if you need these functionality.
+Creates a filter in your configuration. It **does not support binary operators**,
+ such as `and` or `or`. Please, use a `syslog_ng::config` if you need this
+ functionality.
 
 ```puppet
 syslog_ng::filter {'f_tag_filter':
@@ -225,10 +222,13 @@ syslog_ng::filter {'f_tag_filter':
 ```
 **Parameters within `syslog_ng::filter`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 ####Defined type: `syslog_ng::log`
-Creates log paths in your configuration. It can create `channels`, `junctions` and reference already defined `sources`, `destinations`, etc.  The syntax is a little bit different that you already met at statements...
+Creates log paths in your configuration. It can create `channels`, `junctions`
+ and reference already defined `sources`, `destinations`, etc.  The syntax is a
+ little bit different that you already met at statements...
 
 ```puppet
 syslog_ng::log {'l':
@@ -244,7 +244,9 @@ The syntax is a little bit different.
 
 
 ####Defined type: `syslog_ng::options`
-Creates a global options statement.
+Creates a global options statement. Currently it it not a class, so you should
+ not declare it multiple timet! I think of the similar declaration of other types
+ as a syntactic sugar, that was the only reason.
 
 ```puppet
 syslog_ng::options { "global_options":
@@ -255,11 +257,14 @@ syslog_ng::options { "global_options":
 ```
 **Parameters within `syslog_ng::options`:**
 #####`options`
-A hash containing string keys and string values. In the generated configuration the keys will appear in alphabetical order.
+A hash containing string keys and string values. In the generated configuration
+the keys will appear in alphabetical order.
 
 
 ####Class: `syslog_ng::params`
-Contains some basic constants which are used during the configuration generation. It is the base class of `syslog_ng`. You should not use this class directly, it is part of the inner working.
+Contains some basic constants which are used during the configuration generation.
+ It is the base class of `syslog_ng`. You should not use this class directly, it
+ is part of the inner working.
 
 ####Defined type: `syslog_ng::parser`
 Creates a parser statement in your configuration.
@@ -282,11 +287,14 @@ syslog_ng::parser {'p_hostname_segmentation':
 ```
 **Parameters within `syslog_ng::parser`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 
 ####Class: `syslog_ng::reload`
-Contains a logic, which is able to reload `syslog-ng`. You should not use this class directly, it is part of the inner working.
+Contains a logic, which is able to reload `syslog-ng`. You should not use this
+class directly, it is part of the inner working.
+
 
 ####Defined type: `syslog_ng::rewrite`
 Creates one or more rewrite rules in your configuration.
@@ -306,7 +314,8 @@ syslog_ng::rewrite{'r_rewrite_subst':
 ```
 **Parameters within `syslog_ng::rewrite`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 
 ####Defined type: `syslog_ng::source`
@@ -352,9 +361,8 @@ syslog_ng::source {'s_external':
 ```
 **Parameters within `syslog_ng::source`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
-
-
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 
 ####Defined type: `syslog_ng::template`
@@ -380,26 +388,56 @@ syslog_ng::template {'t_demo_filetemplate':
 ```
 **Parameters within `syslog_ng::template`:**
 #####`params`
-An array of hashes or a single hash. It uses the syntax which is described [here](#statement_syntax).
+An array of hashes or a single hash. It uses the syntax which is described
+[here](#statement_syntax).
 
 
 ## Inner working
-The module heavily uses the `concat` and `concat::fragment` types. An order is assigned to each statement (`source`, `destination`, `rewrite`, etc.) which determines their order in the generated configuration file.
+The module heavily uses the `concat` and `concat::fragment` types. An order is
+ assigned to each statement (`source`, `destination`, `rewrite`, etc.) which
+ determines their order in the generated configuration file.
 
-The config generation is done by the `generate_statement()` function in most cases. It is just a wrapper around my `statement.rb` Ruby module, which does the hard work. You may think, that the `require` part is quite ugly in this part, but it works well.
+The config generation is done by the `generate_statement()` function in most
+ cases. It is just a wrapper around my `statement.rb` Ruby module, which does
+ the hard work. You may think, that the `require` part is quite ugly in this
+ part, but it works well.
 
 
 ## Limitations
 
-The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on Debian as well. I you use it on an other platform, please let me know about it!
+The module works well with the following Puppet versions:
+  * 2.7.9
+  * 2.7.13
+  * 2.7.17
+  * 3.1.0
+  * 3.2.3
+  * 3.3.1
+  * 3.3.2
+  * 3.4.0
+  * 3.4.3
+
+Tested Ruby version:
+  * 1.8.7
+  * 1.9.2
+
+*NOTE*: The module was tested with Travis with these versions. It may work well
+ of other Puppet or Ruby version. If that's so, please hit me up.
+
+The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on
+ Debian as well. If you use it on an other platform, please let me know about it!
 
 ## Development
 
-I am open to accept any pull request, either it comes to bug fixes or feature developments. I do not want to state the significance of tests, so please, write some spec test and update the documentation as well according to your modification.
+I am open to accept any pull request, either it comes to bug fixes or feature
+ developments. I do not want to state the significance of tests, so please,
+ write some spec test and update the documentation as well according to your
+ modification.
 
 **Note for commiters:**
 
-The `master` branch is a sacred place, do not commit to it directly. We should touch it only by pull requests or rebasing our modifications on the top of its head.
+The `master` branch is a sacred place, do not commit to it directly. We should
+ touch it only by pull requests or rebasing our modifications on the top of its
+ head.
 
 ## Release Notes/Contributors/Etc **Optional**
 ###  Contributors
