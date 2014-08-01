@@ -3,13 +3,12 @@
 class syslog_ng (
   $config_file          = $::syslog_ng::params::config_file,
   $sbin_path            = '/usr/sbin',
-  $purge_syslog_ng_conf = false,
   $user                 = 'root',
   $group                = 'root',
   $syntax_check_before_reloads = true
 ) inherits syslog_ng::params {
 
-  validate_bool($purge_syslog_ng_conf)
+  validate_bool($syntax_check_before_reloads)
 
   class {'syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
