@@ -6,7 +6,7 @@ define syslog_ng::destination (
     $order = '70'
     
     concat::fragment { $title:
-        target  => $::syslog_ng::params::config_file,
+        target  => "$syslog_ng::tmp_config_file",
         content => generate_statement($id, $type, $params),
         order => $order
     }
