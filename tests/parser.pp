@@ -1,3 +1,5 @@
+include syslog_ng
+
 syslog_ng::parser {'p_hostname_segmentation':
     params => {
         'type' => 'csv-parser',
