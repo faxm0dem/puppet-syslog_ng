@@ -13,6 +13,7 @@ class syslog_ng::params {
   }
   
   $config_file  = '/etc/syslog-ng/syslog-ng.conf'
+  $tmp_config_file  = '/tmp/syslog-ng.conf.tmp'
   $package_name = 'syslog-ng-core'
   $service_name = 'syslog-ng'
 
