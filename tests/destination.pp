@@ -1,3 +1,5 @@
+include syslog_ng
+
 syslog_ng::destination { 'd_udp':
     params => {
         'type' => 'udp',

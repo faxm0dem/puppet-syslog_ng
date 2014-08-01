@@ -1,3 +1,5 @@
+include syslog_ng
+
 syslog_ng::template {'t_demo_filetemplate':
     params => [
         {

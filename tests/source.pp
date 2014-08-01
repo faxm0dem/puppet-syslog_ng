@@ -1,3 +1,5 @@
+include syslog_ng
+
 syslog_ng::source { 's_gsoc':
     params => {
         'type' => 'tcp',

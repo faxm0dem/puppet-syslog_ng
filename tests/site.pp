@@ -2,9 +2,10 @@
 
 include syslog_ng
 
+# the header written by this module has order == 1, so the version must be 02
 syslog_ng::config {'version':
     content => '@version: 3.6',
-    order => '0'
+    order => '02'
 }
 
 syslog_ng::options { 'global_options':
