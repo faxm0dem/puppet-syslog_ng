@@ -7,8 +7,7 @@ describe 'syslog_ng' do
   context 'With not default params' do
     let(:params) {{
       :config_file => '/tmp/puppet-test/syslog-ng.conf',
-      :sbin_path => '/home/tibi/install/syslog-ng',
-      :purge_syslog_ng_conf => true
+      :sbin_path => '/home/tibi/install/syslog-ng'
     }}
     it {
       should contain_package('syslog-ng-core')

@@ -5,7 +5,7 @@ syslog_ng::template {'t_demo_filetemplate':
         {
             'type' => 'template',
             'options' => [
-                "$ISODATE $HOST $MSG\n"
+                '"$ISODATE $HOST $MSG\n"'
             ]
         },
         {
