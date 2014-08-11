@@ -454,6 +454,12 @@ The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on
 
 ## Development
 
+You can create a development environment from scratch in some seconds by using Docker. Just enter the following command in the root directory of the cloned repo:
+
+```
+# docker build .
+```
+
 I am open to any pull requests, either for bug fixes or feature
  developments. I cannot stress the significance of tests sufficiently, so please,
  write some spec tests and update the documentation as well according to your
