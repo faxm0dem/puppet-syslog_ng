@@ -38,12 +38,22 @@ module Statement
         end
     end
 
-    def self.build_type(item, indent, buffer)
-        type = item['type']
-        options = item['options']
+    def self.wrap_build_options(type, options, indent, buffer)
         buffer << indent << type << "(\n"
         build_options(options, indent, buffer)
         buffer << indent << ");\n"
+    end
+
+    def self.build_type(item, indent, buffer)
+        if item.has_key?('type')
+            type = item['type']
+            options = item['options']
+            wrap_build_options(type, options, indent, buffer)
+        else
+            type = item.keys[0]
+            options = item[type]
+            wrap_build_options(type, options, indent, buffer)
+        end
     end
 
     def self.build_types(types, indent, buffer)

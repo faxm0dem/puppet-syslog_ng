@@ -50,6 +50,41 @@ describe 'generate_statement' do
             expect(result).to be_a String
             expect(result).to eq param1_expected
         end
+
+    end
+
+    context "Array notation with one item can be omitted" do
+        let(:param1) {{
+            'type' => 'subst',
+            'options' => [
+                %q!'string'!,
+                %q!'replacement'!,
+                { 'value' => 'field' },
+                { 'flags' => 'ignore-case, store-matches'}
+            ]
+        }}
+        let(:param1_expected) {
+%q!rewrite r_name {
+    subst(
+        'string',
+        'replacement',
+        value(field),
+        flags(ignore-case, store-matches)
+    );
+};
+!}
+
+        it 'On parameters of options' do
+            result = scope.function_generate_statement([title, type, [param1]])
+            expect(result).to be_a String
+            expect(result).to eq param1_expected
+        end
+
+        it 'On options' do
+            result = scope.function_generate_statement([title, type, param1])
+            expect(result).to be_a String
+            expect(result).to eq param1_expected
+        end
  
     end
 
