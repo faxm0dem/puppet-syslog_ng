@@ -33,6 +33,17 @@ syslog_ng::source {'s_external':
             {'keep_hostname' => ['yes']},
             {'transport' => ['udp']}
             ]
+        },
+        {
+            'tcp'  =>  [
+                {'ip' => ["'127.0.0.1'"]},
+                {'port' => [514]},
+                {'tls' => [
+                    {'key_file' => ['"/opt/syslog-ng/etc/syslog-ng/key.d/syslog-ng.key"']},
+                    {'cert_file'=> '"/opt/syslog-ng/etc/syslog-ng/cert.d/syslog-ng.cert"'},
+                    {'peer_verify' => 'optional-untrusted'}
+                ]}
+            ]
         }
     ]
 } 
