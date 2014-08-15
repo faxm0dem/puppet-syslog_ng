@@ -55,10 +55,23 @@ syslog_ng::source { 's_gsoc':
     }
 }
 ```
+There is a shorter form:
+<a name="shorter_form"></a>
+```
+syslog_ng::source { 's_gsoc':
+    params => {
+        'tcp' => [
+            {'ip' => "'127.0.0.1'"},
+            {'port' => 1999}
+        }]
+    }
+}
+```
+
 ### <a name="statement_syntax"></a> Configuration syntax
 Every statement has the same layout. They can accept a `params` parameter, which
 can be a hash or an array of hashes. Each hash should have a `type` and `options`
-key.
+key or you can use a shorter form like [here](#shorter_form).
 
 The value of the `type` represents the type of the statement, in case of a
 source this can be `file`, `tcp` and so on.
