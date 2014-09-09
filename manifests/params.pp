@@ -12,9 +12,15 @@ class syslog_ng::params {
     'use_dns' => 'no'
   }
   
-  $config_file  = '/etc/syslog-ng/syslog-ng.conf'
-  $tmp_config_file  = '/tmp/syslog-ng.conf.tmp'
-  $package_name = 'syslog-ng-core'
+  case $::osfamily {
+    'Redhat', 'Amazon': {
+      $package_name = 'syslog-ng'
+    }
+    default: {
+      $package_name = 'syslog-ng-core'
+    }
+  }
   $service_name = 'syslog-ng'
-
+  $tmp_config_file  = '/tmp/syslog-ng.conf.tmp'
+  $config_file  = '/etc/syslog-ng/syslog-ng.conf'
 }
