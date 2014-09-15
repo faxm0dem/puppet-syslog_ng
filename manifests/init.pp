@@ -11,6 +11,17 @@ class syslog_ng (
   $syntax_check_before_reloads = true
 ) inherits syslog_ng::params {
 
+  case $::operatingsystem {
+    Debian,Ubuntu: {
+    }
+    # for RedHat support
+    #redhat,centos,fedora,Scientific: {
+    #}
+    default: {
+      fail("${::hostname}: This module does not support operatingsystem ${::operatingsystem}")
+    }
+  }
+
   validate_bool($syntax_check_before_reloads)
 
   class {'syslog_ng::reload':
