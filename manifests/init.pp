@@ -2,6 +2,9 @@
 
 class syslog_ng (
   $config_file          = $::syslog_ng::params::config_file,
+  $tmp_config_file      = $::syslog_ng::params::tmp_config_file,
+  $package_name         = $::syslog_ng::params::package_name,
+  $service_name         = $::syslog_ng::params::service_name,
   $sbin_path            = '/usr/sbin',
   $user                 = 'root',
   $group                = 'root',
