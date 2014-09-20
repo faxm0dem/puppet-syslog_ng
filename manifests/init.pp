@@ -35,8 +35,6 @@ class syslog_ng (
   $date = strftime("%Y-%m-%d")
   $time = strftime("%H:%M:%S:%L")
 
-  $tmp_config_file = $syslog_ng::params::tmp_config_file
-
   concat { $tmp_config_file:
     ensure => present,
     path   => $tmp_config_file,
