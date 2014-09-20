@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe 'syslog_ng' do
 
-  let(:facts)  {{ :concat_basedir => '/dne' }}
+  let(:facts)  {{ :concat_basedir => '/dne',
+                  :osfamily => 'Ubuntu',
+                  :operatingsystem => 'Ubuntu'
+  }}
 
   context 'With not default params' do
     let(:params) {{
