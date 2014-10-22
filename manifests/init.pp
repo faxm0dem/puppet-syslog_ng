@@ -12,12 +12,14 @@ class syslog_ng (
   $config_file_header   = $::syslog_ng::params::config_file_header,
 ) inherits syslog_ng::params {
 
-  case $::operatingsystem {
-    Debian,Ubuntu: {
+  case $::osfamily {
+    Debian: {
     }
     # for RedHat support
     #redhat,centos,fedora,Scientific: {
     #}
+    'Redhat', 'Amazon': {
+    }
     default: {
       fail("${::hostname}: This module does not support operatingsystem ${::operatingsystem}")
     }
