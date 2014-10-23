@@ -13,7 +13,7 @@ class syslog_ng (
 ) inherits syslog_ng::params {
 
   case $::osfamily {
-    Debian: {
+    'Debian', 'Ubuntu': {
     }
     # for RedHat support
     #redhat,centos,fedora,Scientific: {
