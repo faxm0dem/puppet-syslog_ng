@@ -21,7 +21,7 @@ class syslog_ng (
     'Redhat', 'Amazon': {
     }
     default: {
-      fail("${::hostname}: This module does not support operatingsystem ${::operatingsystem}")
+      fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
   }
 
