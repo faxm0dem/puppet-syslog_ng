@@ -12,14 +12,16 @@ class syslog_ng (
   $config_file_header   = $::syslog_ng::params::config_file_header,
 ) inherits syslog_ng::params {
 
-  case $::operatingsystem {
-    Debian,Ubuntu: {
+  case $::osfamily {
+    'Debian', 'Ubuntu': {
     }
     # for RedHat support
     #redhat,centos,fedora,Scientific: {
     #}
+    'Redhat', 'Amazon': {
+    }
     default: {
-      fail("${::hostname}: This module does not support operatingsystem ${::operatingsystem}")
+      fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
   }
 
@@ -48,7 +50,7 @@ class syslog_ng (
 
   concat::fragment {'header':
     target => $tmp_config_file,
-    content => config_file_header,
+    content => $config_file_header,
     order => '01'
   }
  
