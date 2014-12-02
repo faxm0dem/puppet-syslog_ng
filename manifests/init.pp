@@ -5,6 +5,7 @@ class syslog_ng (
   $tmp_config_file      = $::syslog_ng::params::tmp_config_file,
   $package_name         = $::syslog_ng::params::package_name,
   $service_name         = $::syslog_ng::params::service_name,
+  $manage_package       = true,
   $sbin_path            = '/usr/sbin',
   $user                 = 'root',
   $group                = 'root',
@@ -26,13 +27,17 @@ class syslog_ng (
   }
 
   validate_bool($syntax_check_before_reloads)
+  validate_bool($manage_package)
 
   class {'syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
   }
 
-  package { "$syslog_ng::params::package_name":
-    ensure => present
+  if ($manage_package) {
+    package { "$syslog_ng::params::package_name":
+      ensure => present,
+      before => Concat[$tmp_config_file]
+    }
   }
 
   concat { $tmp_config_file:
@@ -43,7 +48,6 @@ class syslog_ng (
     warn   => true,
     ensure_newline => true,
     notify =>  Exec['reload'],
-    require => Package[$syslog_ng::params::package_name]
   }
 
   notice("tmp_config_file: ${tmp_config_file}")
