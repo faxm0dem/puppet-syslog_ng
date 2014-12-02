@@ -1,5 +1,8 @@
 shared_examples_for "Statement" do |id, type|
-    let(:facts)  {{ :concat_basedir => '/dne' }}
+    let(:facts)  {{ :concat_basedir => '/dne',
+                    :osfamily => 'Ubuntu',
+                    :operatingsystem => 'Ubuntu'
+    }}
 
     let(:pre_condition) { 'include syslog_ng' }
     let(:title) { id }
