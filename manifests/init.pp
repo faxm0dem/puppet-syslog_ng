@@ -5,7 +5,9 @@ class syslog_ng (
   $tmp_config_file      = $::syslog_ng::params::tmp_config_file,
   $package_name         = $::syslog_ng::params::package_name,
   $service_name         = $::syslog_ng::params::service_name,
+  $module_prefix        = $::syslog_ng::params::module_prefix,
   $manage_package       = true,
+  $modules              = [],
   $sbin_path            = '/usr/sbin',
   $user                 = 'root',
   $group                = 'root',
@@ -13,21 +15,9 @@ class syslog_ng (
   $config_file_header   = $::syslog_ng::params::config_file_header,
 ) inherits syslog_ng::params {
 
-  case $::osfamily {
-    'Debian', 'Ubuntu': {
-    }
-    # for RedHat support
-    #redhat,centos,fedora,Scientific: {
-    #}
-    'Redhat', 'Amazon': {
-    }
-    default: {
-      fail("${::hostname}: This module does not support osfamily ${::osfamily}")
-    }
-  }
-
   validate_bool($syntax_check_before_reloads)
   validate_bool($manage_package)
+  validate_array($modules)
 
   class {'syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
@@ -36,8 +26,12 @@ class syslog_ng (
   if ($manage_package) {
     package { $::syslog_ng::params::package_name:
       ensure => present,
-      before => Concat[$tmp_config_file]
+      before => [
+        Concat[$tmp_config_file],
+        Exec[syslog_ng_reload]
+      ]
     }
+    syslog_ng::module {$modules:}
   }
 
   concat { $tmp_config_file:
@@ -47,7 +41,7 @@ class syslog_ng (
     group  => $group,
     warn   => true,
     ensure_newline => true,
-    notify =>  Exec['reload'],
+    notify =>  Exec['syslog_ng_reload'],
   }
 
   notice("tmp_config_file: ${tmp_config_file}")

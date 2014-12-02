@@ -15,9 +15,14 @@ class syslog_ng::params {
   case $::osfamily {
     'Redhat', 'Amazon': {
       $package_name = 'syslog-ng'
+      $module_prefix = 'syslog-ng-'
+    }
+    'Debian', 'Ubuntu': {
+      $package_name = 'syslog-ng-core'
+      $module_prefix = 'syslog-ng-mod-'
     }
     default: {
-      $package_name = 'syslog-ng-core'
+      fail("${::hostname}: This module does not support osfamily `${::osfamily}`")
     }
   }
   $service_name = 'syslog-ng'

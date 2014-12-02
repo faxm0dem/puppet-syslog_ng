@@ -160,6 +160,9 @@ Configures the path of the configuration file. Defaults to `/etc/syslog-ng/syslo
 all operation systems.
 #####`manage_package`
 Controls if the module is managing the package resource or not. Use `false` if you are already handling this in your manifests.
+#####`modules`
+Configures additional syslog-ng modules. If `manage_package` is set to `true` this will also install the corresponding packages, *e.g.* `syslog-ng-riemann` on RedHat if
+`modules = ['riemann']`.
 #####`sbin_path`
 Configures the path, where `syslog-ng` and `syslog-ng-ctl` binaries can be found.
 Defaults to `/usr/sbin`.
