@@ -8,13 +8,13 @@ class syslog_ng::reload (
   $tmp_config_file = $::syslog_ng::params::tmp_config_file
 
 
-  $syslog_ng_ctl_full_path = "${syslog_ng::sbin_path}/syslog-ng-ctl"
-  $syslog_ng_full_path = "${syslog_ng::sbin_path}/syslog-ng"
+  $syslog_ng_ctl_full_path = "${::syslog_ng::sbin_path}/syslog-ng-ctl"
+  $syslog_ng_full_path = "${::syslog_ng::sbin_path}/syslog-ng"
 
   # echo always returns 0
   $check_syntax_command = $syntax_check_before_reloads ? {
     true  => "${syslog_ng_full_path} --syntax-only --cfgfile ${tmp_config_file}",
-    false => "echo"
+    false => 'echo'
   }
 
   notice("syslog_ng::reload: syntax_check_before_reloads=${syntax_check_before_reloads}")
@@ -22,12 +22,12 @@ class syslog_ng::reload (
 
   exec { 'reload':
     command     => "${syslog_ng_ctl_full_path} reload",
-    path        => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:",
+    path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:',
     refreshonly => true,
     try_sleep   => 1,
-    require     => Package["$::syslog_ng::params::package_name"],
+    require     => Package[$::syslog_ng::params::package_name],
     logoutput   => true,
     onlyif      => $check_syntax_command,
-    refresh     => "cp $tmp_config_file $config_file"
+    refresh     => "cp ${tmp_config_file} ${config_file}"
   }
 }

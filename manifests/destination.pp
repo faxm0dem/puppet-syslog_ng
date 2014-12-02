@@ -1,13 +1,13 @@
 define syslog_ng::destination (
-	$params = []
+  $params = []
 ) {
-    $type = 'destination'
-    $id = $title
-    $order = '70'
+  $type = 'destination'
+  $id = $title
+  $order = '70'
     
-    concat::fragment { $title:
-        target  => "$syslog_ng::tmp_config_file",
-        content => generate_statement($id, $type, $params),
-        order => $order
-    }
+  concat::fragment { $title:
+    target  => $::syslog_ng::tmp_config_file,
+    content => generate_statement($id, $type, $params),
+    order => $order
+  }
 }

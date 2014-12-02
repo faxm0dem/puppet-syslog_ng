@@ -34,7 +34,7 @@ class syslog_ng (
   }
 
   if ($manage_package) {
-    package { "$syslog_ng::params::package_name":
+    package { $::syslog_ng::params::package_name:
       ensure => present,
       before => Concat[$tmp_config_file]
     }
@@ -57,14 +57,14 @@ class syslog_ng (
     content => $config_file_header,
     order => '01'
   }
- 
+
   file {$config_file:
     ensure => present,
     path   => $config_file,
-    require => Concat["$tmp_config_file"]
+    require => Concat[$tmp_config_file]
   }
 
-  service { "$syslog_ng::params::service_name":
+  service { $::syslog_ng::params::service_name:
     ensure  =>  running,
     require =>  File[$config_file]
   }
