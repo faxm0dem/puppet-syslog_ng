@@ -41,7 +41,6 @@ class syslog_ng (
     group  => $group,
     warn   => true,
     ensure_newline => true,
-    notify =>  Exec['syslog_ng_reload'],
   }
 
   notice("tmp_config_file: ${tmp_config_file}")
