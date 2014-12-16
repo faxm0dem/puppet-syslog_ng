@@ -17,6 +17,10 @@
 5. [Implementation details](#implementation-details)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+    * [Preparation to run the tests](#preparations-to-run-the-tests)
+    * [Running the tests](#running-the-tests)
+    * [The workflow](#the-workflow)
+    * [Other information](#other-information)
     * [Changelog](#changelog)
 
 ## Overview
@@ -467,16 +471,63 @@ Tested Ruby versions:
 *NOTE*: The module was tested with Travis with these versions. It may work well
  on other Puppet or Ruby versions. If that's so, please hit me up.
 
-The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on
- Debian as well. If you use it on an other platform, please let me know about it!
+The following platforms are currently tested (in Docker containers):
+
+|              | 1.8.7 | 1.9.1 | 1.9.3 | 2.0.0 |
+|--------------|-------|-------|-------|-------|
+| CentOS 6     | x     |       |       |       |
+| CentOS 7      |       |       |       | x     |
+| Ubuntu 12.04 | x     |       |       |       |
+| Ubuntu 14.04 |       |       | x     |       |
+
+If you use it on an other platform, please let me know about it!
 
 ## Development
 
-You can create a development environment from scratch in some seconds by using Docker. Just enter the following command in the root directory of the cloned repo:
+You can run the tests locally on multiple platform at the same time. Check the subdirs undes `docker/` about the currently used platforms and Ruby versions.
 
+### Preparations to run the tests
+You can run the tests on your machine, if you have `Docker`, `fig` and `make` installed. You can find more information [here](https://docs.docker.com/installation/) how to install Docker.
+
+For fig, you can install it with pip:
 ```
-# docker build .
+sudo pip install fig
 ```
+
+You can install make on Debian like systems with the following command:
+```
+sudo apt-get install make
+```
+
+### Running the tests
+You can use `make` to run the tests:
+* `make [all]:` build and run all tests on all platforms
+* `make build:` build the Docker images
+* `make check:` run the tests on all platforms
+* `make ps`: check the exit codes of the platform tests
+* `make logs:` view the test logs
+* `make clean`: remove all temporary files
+
+### The workflow
+First, run `make` in the cloned repo. That will build the Docker images
+and start the tests. It will output a lot of information, but the last
+lines are the most substantial. They looks similar to these:
+```
+successfully built 0ff4aa52ce3a
+fig up -d
+Recreating ihrweinsyslogng_ubuntu1404ruby193_1...
+Recreating ihrweinsyslogng_ubuntu1204ruby187_1...
+fig ps
+               Name                    Command    State   Ports
+---------------------------------------------------------------
+ihrweinsyslogng_ubuntu1204ruby187_1   rake spec   Up
+ihrweinsyslogng_ubuntu1404ruby193_1   rake spec   Up
+```
+Now, you can check the progress with `make ps`. If they are not
+runnnig, you can see the exit codes. 0 mean OK. 
+
+
+### Other information
 
 I am open to any pull requests, either for bug fixes or feature
  developments. I cannot stress the significance of tests sufficiently, so please,
