@@ -1,3 +1,4 @@
 .gemfile.lock
 spec/fixtures/modules/stdlib
 *.swp
+module.tar.gz
