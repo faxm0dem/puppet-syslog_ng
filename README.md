@@ -472,11 +472,50 @@ The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on
 
 ## Development
 
-You can create a development environment from scratch in some seconds by using Docker. Just enter the following command in the root directory of the cloned repo:
+You can run the tests locally on multiple platform at the same time. Check the subdirs undes `docker/` about the currently used platforms and Ruby versions.
 
+### Preparations to run the tests
+You can run the tests on your machine, if you have `Docker`, `fig` and `make` installed. You can find more information [here](https://docs.docker.com/installation/) how to install Docker.
+
+For fig, you can install it with pip:
 ```
-# docker build .
+sudo pip install fig
 ```
+
+You can install make on Debian like systems with the following command:
+```
+sudo apt-get install make
+```
+
+### Running the tests
+You can use `make` to run the tests:
+* `make [all]:` build and run all tests on all platforms
+* `make build:` build the Docker images
+* `make check:` run the tests on all platforms
+* `make ps`: check the exit codes of the platform tests
+* `make logs:` view the test logs
+* `make clean`: remove all temporary files
+
+### The workflow
+First, run `make` in the cloned repo. That will build the Docker images
+and start the tests. It will output a lot of information, but the last
+lines are the most substantial. They looks similar to these:
+```
+successfully built 0ff4aa52ce3a
+fig up -d
+Recreating ihrweinsyslogng_ubuntu1404ruby193_1...
+Recreating ihrweinsyslogng_ubuntu1204ruby187_1...
+fig ps
+               Name                    Command    State   Ports
+---------------------------------------------------------------
+ihrweinsyslogng_ubuntu1204ruby187_1   rake spec   Up
+ihrweinsyslogng_ubuntu1404ruby193_1   rake spec   Up
+```
+This means, the tests are running in a Ubuntu 12.04 image, with Ruby 1.8.7 and in a Ubuntu 14.04 image with Ruby 1.9.3.
+
+Now, you can check the progress with `make ps`. If they are not runnnig, you can see the exit codes. 0 mean OK. 
+
+### Other information
 
 I am open to any pull requests, either for bug fixes or feature
  developments. I cannot stress the significance of tests sufficiently, so please,
