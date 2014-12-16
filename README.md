@@ -17,6 +17,10 @@
 5. [Implementation details](#implementation-details)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+    * [Preparation to run the tests](#preparations-to-run-the-tests)
+    * [Running the tests](#running-the-tests)
+    * [The workflow](#the-workflow)
+    * [Other information](#other-information)
     * [Changelog](#changelog)
 
 ## Overview
