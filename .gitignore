@@ -2,3 +2,4 @@
 spec/fixtures/modules/stdlib
 *.swp
 module.tar.gz
+pkg/*
