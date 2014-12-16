@@ -1,0 +1,7 @@
+ubuntu1204ruby187:
+    build: docker/ubuntu-12.04/ruby-1.8.7
+    command: rake spec
+
+ubuntu1404ruby193:
+    build: docker/ubuntu-14.04/ruby-1.9.3
+    command: rake spec
