@@ -515,7 +515,14 @@ fig ps
 ihrweinsyslogng_ubuntu1204ruby187_1   rake spec   Up
 ihrweinsyslogng_ubuntu1404ruby193_1   rake spec   Up
 ```
-This means, the tests are running in a Ubuntu 12.04 image, with Ruby 1.8.7 and in a Ubuntu 14.04 image with Ruby 1.9.3.
+The following platforms are currently tested:
+
+|              | 1.8.7 | 1.9.1 | 1.9.3 | 2.0.0 |
+|--------------|-------|-------|-------|-------|
+| CentOS 6     | x     |       |       |       |
+| CentOS       |       |       |       | x     |
+| Ubuntu 12.04 | x     |       |       |       |
+| Ubuntu 14.04 |       |       | x     |       |
 
 Now, you can check the progress with `make ps`. If they are not runnnig, you can see the exit codes. 0 mean OK. 
 

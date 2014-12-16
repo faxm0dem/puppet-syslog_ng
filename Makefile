@@ -1,5 +1,7 @@
 PLATFORMS=docker/ubuntu-12.04/ruby-1.8.7 \
-		 docker/ubuntu-14.04/ruby-1.9.3
+		 docker/ubuntu-14.04/ruby-1.9.3 \
+		 docker/centos-6/ruby-1.8.7 \
+		 docker/centos-7/ruby-2.0.0
 
 all: build check
 
@@ -23,9 +25,9 @@ logs:
 
 clean: 
 	fig rm --force
-	rm -f docker/ubuntu-12.04/ruby-1.8.7/Gemfile
-	rm -f docker/ubuntu-12.04/ruby-1.8.7/module.tar.gz
-	rm -f docker/ubuntu-14.04/ruby-1.9.3/Gemfile
-	rm -f docker/ubuntu-14.04/ruby-1.9.3/module.tar.gz
+	for dir in $(PLATFORMS); do \
+		rm -f $$dir/Gemfile; \
+		rm -f $$dir/module.tar.gz; \
+	done
 
 .PHONY: all check ps clean logs
