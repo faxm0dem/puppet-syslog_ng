@@ -471,8 +471,16 @@ Tested Ruby versions:
 *NOTE*: The module was tested with Travis with these versions. It may work well
  on other Puppet or Ruby versions. If that's so, please hit me up.
 
-The module was only tested on Ubuntu Linux (14.04 LTS), but it should work on
- Debian as well. If you use it on an other platform, please let me know about it!
+The following platforms are currently tested (in Docker containers):
+
+|              | 1.8.7 | 1.9.1 | 1.9.3 | 2.0.0 |
+|--------------|-------|-------|-------|-------|
+| CentOS 6     | x     |       |       |       |
+| CentOS 7      |       |       |       | x     |
+| Ubuntu 12.04 | x     |       |       |       |
+| Ubuntu 14.04 |       |       | x     |       |
+
+If you use it on an other platform, please let me know about it!
 
 ## Development
 
@@ -515,16 +523,9 @@ fig ps
 ihrweinsyslogng_ubuntu1204ruby187_1   rake spec   Up
 ihrweinsyslogng_ubuntu1404ruby193_1   rake spec   Up
 ```
-The following platforms are currently tested:
+Now, you can check the progress with `make ps`. If they are not
+runnnig, you can see the exit codes. 0 mean OK. 
 
-|              | 1.8.7 | 1.9.1 | 1.9.3 | 2.0.0 |
-|--------------|-------|-------|-------|-------|
-| CentOS 6     | x     |       |       |       |
-| CentOS       |       |       |       | x     |
-| Ubuntu 12.04 | x     |       |       |       |
-| Ubuntu 14.04 |       |       | x     |       |
-
-Now, you can check the progress with `make ps`. If they are not runnnig, you can see the exit codes. 0 mean OK. 
 
 ### Other information
 
