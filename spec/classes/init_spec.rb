@@ -16,6 +16,22 @@ describe 'syslog_ng' do
       should contain_package('syslog-ng-core')
       should contain_service('syslog-ng')
     }
+    it {
+      should contain_file('/etc/default/syslog-ng')
+    }
+  end
+  context 'On RedHat' do
+    let(:facts)  {{ :concat_basedir => '/dne',
+                    :osfamily => 'RedHat',
+                    :operatingsystem => 'RedHat'
+    }}
+    it {
+      should contain_package('syslog-ng')
+      should contain_service('syslog-ng')
+    }
+    it {
+      should contain_file('/etc/sysconfig/syslog-ng')
+    }
   end
   context 'When asked not to manage package' do
     let(:params) {{

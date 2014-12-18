@@ -163,7 +163,9 @@ with default configuration on your system.
 Configures the path of the configuration file. Defaults to `/etc/syslog-ng/syslog-ng.conf` on
 all operation systems.
 #####`manage_package`
-Controls if the module is managing the package resource or not. Use `false` if you are already handling this in your manifests.
+Controls if the module is managing the package resource or not. Use `false` if you are already handling this in your manifests. Defaults to `true`
+#####`manage_init_defaults`
+Controls if the module is managing the init script's config file (See `init_config_file` and `init_config_hash`). Defaults to `true`
 #####`modules`
 Configures additional syslog-ng modules. If `manage_package` is set to `true` this will also install the corresponding packages, *e.g.* `syslog-ng-riemann` on RedHat if
 `modules = ['riemann']`.
@@ -178,6 +180,10 @@ Configures `syslog-ng` to run as `group`.
 The module always checks the syntax of the generated configuration. If it is not OK,
  the main configuration (usually `/etc/syslog-ng/syslog-ng.conf`) will not be
  overwritten, but you can disable this behavior by setting this parameter to false.
+##### `init_config_file`
+Path to the init script configuration file, defaults to `/etc/sysconfig/syslog-ng` on RedHat systems, and `/etc/default/syslog-ng` on Debian family.
+##### `init_config_hash`
+Hash of init configuration options to put into `init_config_file`. This has OS specific defaults which will be merged to user specified value.
 
 ####Defined type: `syslog_ng::config`
 Some elements of the syslog-ng DSL are not supported by this module (mostly
