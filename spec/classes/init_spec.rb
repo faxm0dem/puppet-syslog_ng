@@ -10,7 +10,8 @@ describe 'syslog_ng' do
   context 'With not default params' do
     let(:params) {{
       :config_file => '/tmp/puppet-test/syslog-ng.conf',
-      :sbin_path => '/home/tibi/install/syslog-ng'
+      :sbin_path => '/home/tibi/install/syslog-ng',
+      :manage_init_defaults => true
     }}
     it {
       should contain_package('syslog-ng-core')
@@ -20,7 +21,10 @@ describe 'syslog_ng' do
       should contain_file('/etc/default/syslog-ng')
     }
   end
-  context 'On RedHat' do
+  context 'On RedHat with init_defaults set to true' do
+    let(:params) {{
+      :manage_init_defaults => true
+    }}
     let(:facts)  {{ :concat_basedir => '/dne',
                     :osfamily => 'RedHat',
                     :operatingsystem => 'RedHat'
