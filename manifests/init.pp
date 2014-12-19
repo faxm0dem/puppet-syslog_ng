@@ -8,7 +8,7 @@ class syslog_ng (
   $module_prefix        = $::syslog_ng::params::module_prefix,
   $init_config_file     = $::syslog_ng::params::init_config_file,
   $init_config_hash     = {},
-  $manage_init_defaults = true,
+  $manage_init_defaults = false,
   $manage_package       = true,
   $modules              = [],
   $sbin_path            = '/usr/sbin',
