@@ -6,6 +6,9 @@ class syslog_ng (
   $package_name         = $::syslog_ng::params::package_name,
   $service_name         = $::syslog_ng::params::service_name,
   $module_prefix        = $::syslog_ng::params::module_prefix,
+  $init_config_file     = $::syslog_ng::params::init_config_file,
+  $init_config_hash     = {},
+  $manage_init_defaults = false,
   $manage_package       = true,
   $modules              = [],
   $sbin_path            = '/usr/sbin',
@@ -17,7 +20,9 @@ class syslog_ng (
 
   validate_bool($syntax_check_before_reloads)
   validate_bool($manage_package)
+  validate_bool($manage_init_defaults)
   validate_array($modules)
+  validate_hash($init_config_hash)
 
   class {'syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
@@ -55,6 +60,15 @@ class syslog_ng (
     ensure => present,
     path   => $config_file,
     require => Concat[$tmp_config_file]
+  }
+  
+  if $manage_init_defaults {
+    $merged_init_config_hash = merge($init_config_hash,$::syslog_ng::params::init_config_hash)
+    file {$init_config_file:
+      ensure  => present,
+      content => template('syslog_ng/init_config_file.erb'),
+      notify => Exec[syslog_ng_reload]
+    }
   }
 
   service { $::syslog_ng::params::service_name:

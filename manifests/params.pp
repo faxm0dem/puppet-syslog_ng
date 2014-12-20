@@ -16,10 +16,16 @@ class syslog_ng::params {
     'Redhat', 'Amazon': {
       $package_name = 'syslog-ng'
       $module_prefix = 'syslog-ng-'
+      $init_config_file = '/etc/sysconfig/syslog-ng'
+      $init_config_hash = {
+        'SYSLOGNG_OPTIONS'    => '"-p /var/run/syslog-ng.pid"',
+      }
     }
     'Debian', 'Ubuntu': {
       $package_name = 'syslog-ng-core'
       $module_prefix = 'syslog-ng-mod-'
+      $init_config_file = '/etc/default/syslog-ng'
+      $init_config_hash = {}
     }
     default: {
       fail("${::hostname}: This module does not support osfamily `${::osfamily}`")
