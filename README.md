@@ -102,7 +102,7 @@ You can find a lot of examples under the `tests` and `spec` directories. The
 ## Setup
 
 ### Puppet Forge
-This module has not been published on Puppet Forge yet.
+This module is published on Puppet Forge at [here](https://forge.puppetlabs.com/ihrwein/syslog_ng).
 
 ### Installing from source
 You can install it following these steps:
