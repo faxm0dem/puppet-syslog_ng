@@ -19,6 +19,13 @@
         "12.04",
         "10.04"
       ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6.0",
+        "7.0"
+      ]
     }
   ],
   "dependencies": [
