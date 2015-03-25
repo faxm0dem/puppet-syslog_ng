@@ -10,6 +10,6 @@ shared_examples_for "Statement" do |id, type|
     let(:options) {{}} 
          
     it do 
-        should contain_concat__fragment(title)
+        should contain_concat__fragment("syslog_ng::"+type+" "+title)
     end
 end

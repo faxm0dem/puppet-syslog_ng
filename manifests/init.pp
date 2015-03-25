@@ -50,7 +50,7 @@ class syslog_ng (
 
   notice("tmp_config_file: ${tmp_config_file}")
 
-  concat::fragment {'header':
+  concat::fragment {'syslog_ng header':
     target => $tmp_config_file,
     content => $config_file_header,
     order => '01'

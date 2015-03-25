@@ -3,7 +3,7 @@ define syslog_ng::options (
 ) {
   $order = '10'
 
-  concat::fragment { $title:
+  concat::fragment { "syslog_ng::options ${title}":
     target  => $::syslog_ng::tmp_config_file,
     content => generate_options($options),
     order => $order
