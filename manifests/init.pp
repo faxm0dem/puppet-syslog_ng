@@ -2,7 +2,6 @@
 
 class syslog_ng (
   $config_file          = $::syslog_ng::params::config_file,
-  $tmp_config_file      = $::syslog_ng::params::tmp_config_file,
   $package_name         = $::syslog_ng::params::package_name,
   $service_name         = $::syslog_ng::params::service_name,
   $module_prefix        = $::syslog_ng::params::module_prefix,
@@ -24,44 +23,39 @@ class syslog_ng (
   validate_array($modules)
   validate_hash($init_config_hash)
 
-  class {'syslog_ng::reload':
-    syntax_check_before_reloads => $syntax_check_before_reloads
-  }
-
   if ($manage_package) {
     package { $::syslog_ng::params::package_name:
       ensure => present,
       before => [
-        Concat[$tmp_config_file],
+        Concat[$config_file],
         Exec[syslog_ng_reload]
       ]
     }
     syslog_ng::module {$modules:}
   }
 
-  concat { $tmp_config_file:
+  @concat { $config_file:
     ensure => present,
-    path   => $tmp_config_file,
+    path   => $config_file,
     owner  => $user,
     group  => $group,
     warn   => true,
     ensure_newline => true,
   }
+  
+  class {'syslog_ng::reload':
+    syntax_check_before_reloads => $syntax_check_before_reloads
+  }
+  
 
-  notice("tmp_config_file: ${tmp_config_file}")
+  notice("config_file: ${config_file}")
 
   concat::fragment {'syslog_ng header':
-    target => $tmp_config_file,
+    target => $config_file,
     content => $config_file_header,
     order => '01'
   }
 
-  file {$config_file:
-    ensure => present,
-    path   => $config_file,
-    require => Concat[$tmp_config_file]
-  }
-  
   if $manage_init_defaults {
     $merged_init_config_hash = merge($init_config_hash,$::syslog_ng::params::init_config_hash)
     file {$init_config_file:
