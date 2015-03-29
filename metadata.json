@@ -1,6 +1,6 @@
 {
   "name": "ihrwein-syslog_ng",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "ihrwein",
   "summary": "A module for generating syslog-ng configuration files.",
   "license": "Apache 2.0",
