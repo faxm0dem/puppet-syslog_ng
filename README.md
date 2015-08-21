@@ -13,6 +13,7 @@
     * [What syslog_ng affects](#what-syslog_ng-affects)
     * [Getting started with syslog_ng](#beginning-with-syslog_ng)
 4. [Usage - Configuration options and additional functionality](#usage)
+    * [Facts](#facts)
     * [Classes and defined types](#classes-and-defined-types)
 5. [Implementation details](#implementation-details)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -150,6 +151,10 @@ Before the generated configuration would be applied, it is written to a temporar
  file. Next, the module checks the configuration syntax of this file, and if it is OK,
  it overwrites the real configuration file. So you do not have to worry about
  configuration errors.
+
+### Facts
+
+The fact `syslog_ng_version` contains the installed version string *e.g.* `3.7.1`
 
 ### Classes and defined types
 
