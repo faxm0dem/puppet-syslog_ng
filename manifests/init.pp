@@ -24,7 +24,7 @@ class syslog_ng (
   validate_array($modules)
   validate_hash($init_config_hash)
 
-  class {'syslog_ng::reload':
+  class {'::syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
   }
 

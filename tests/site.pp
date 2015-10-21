@@ -1,6 +1,6 @@
 #import 'nodes.pp'
 
-include syslog_ng
+include ::syslog_ng
 
 # the header written by this module has order == 1, so the version must be 02
 syslog_ng::config {'version':

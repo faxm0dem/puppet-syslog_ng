@@ -2,7 +2,7 @@ class syslog_ng::reload (
   $syntax_check_before_reloads = true
 ) {
 
-  include syslog_ng::params
+  include ::syslog_ng::params
 
   $config_file     = $::syslog_ng::config_file
   $tmp_config_file = $::syslog_ng::params::tmp_config_file

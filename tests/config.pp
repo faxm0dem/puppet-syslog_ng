@@ -1,4 +1,4 @@
-include syslog_ng
+include ::syslog_ng
 
 syslog_ng::config {'version':
     content => '@version: 3.6',
