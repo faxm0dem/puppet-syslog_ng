@@ -1,6 +1,6 @@
 #import 'nodes.pp'
 
-include syslog_ng
+include ::syslog_ng
 
 # the header written by this module has order == 1, so the version must be 02
 syslog_ng::config {'version':
@@ -9,19 +9,19 @@ syslog_ng::config {'version':
 }
 
 syslog_ng::options { 'global_options':
-	options => {
-		'bad_hostname' => "'no'"
-	}
+    options => {
+        'bad_hostname' => "'no'"
+    }
 }
 
 syslog_ng::source { 's_gsoc':
-	params => {
-	    'type' => 'tcp',
-	    'options' => {
-	    	'ip' => "'127.0.0.1'",
-	    	'port' => 1999
-	    }
-	}
+    params => {
+        'type' => 'tcp',
+        'options' => {
+            'ip' => "'127.0.0.1'",
+            'port' => 1999
+        }
+    }
 }
 
 syslog_ng::source {'s_external':

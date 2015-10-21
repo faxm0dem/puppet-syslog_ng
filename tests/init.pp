@@ -10,4 +10,4 @@
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 
-class  { 'syslog_ng': }
+class  { '::syslog_ng': }

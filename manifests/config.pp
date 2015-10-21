@@ -1,5 +1,5 @@
 define syslog_ng::config (
-  $content = '',
+  $content = undef,
   $order = '5'
 ) {
   concat::fragment { "syslog_ng::config ${title}":

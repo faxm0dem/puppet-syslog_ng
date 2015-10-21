@@ -10,7 +10,7 @@
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 
-class  { 'syslog_ng': 
-    tmp_config_file => '/tmp/syslog_ng_conf,
+class  { '::syslog_ng': 
+    tmp_config_file => '/tmp/syslog_ng_conf',
     package_name => 'syslog-ng'
 }

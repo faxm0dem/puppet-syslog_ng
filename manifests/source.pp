@@ -1,7 +1,7 @@
 define syslog_ng::source (
   $params = []
 ) {
-  include syslog_ng::params
+  include ::syslog_ng::params
 
   $type = 'source'
   $id = $title

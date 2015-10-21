@@ -1,4 +1,4 @@
-include syslog_ng
+include ::syslog_ng
 
 syslog_ng::filter {'f_tag_filter':
     params => {

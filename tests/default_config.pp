@@ -1,6 +1,6 @@
 class syslog_ng::default_config {
 
-    syslog_ng::config {"header comment":
+    syslog_ng::config {'header comment':
         content => '
     # Default syslog-ng.conf file which collects all local logs into a
     # single file called /var/log/messages.
@@ -38,7 +38,7 @@ class syslog_ng::default_config {
             {
                 'type' => 'file',
                 'options' => [
-                    "/var/log/messages"
+                    '/var/log/messages'
                 ]
             }
     }

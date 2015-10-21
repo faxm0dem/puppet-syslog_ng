@@ -1,4 +1,4 @@
-include syslog_ng
+include ::syslog_ng
 
 syslog_ng::rewrite{'r_rewrite_subst':
     params => {
