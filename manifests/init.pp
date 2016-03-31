@@ -68,6 +68,6 @@ class syslog_ng (
   service { $::syslog_ng::params::service_name:
     ensure  =>  running,
     enable  =>  true,
-    require =>  File[$config_file]
+    require =>  Concat[$config_file]
   }
 }
