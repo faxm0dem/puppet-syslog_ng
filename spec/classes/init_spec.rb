@@ -53,23 +53,25 @@ describe 'syslog_ng' do
       should contain_syslog_ng__module('baz')
     }
   end
-  context 'When asked to check syntax before reload' do
-    let(:params) {{
-      :syntax_check_before_reloads => true
-    }}
+  context 'When config changes' do
     it {
-      should contain_file('/tmp/syslog-ng.conf.tmp').that_notifies('Exec[syslog_ng_syntax_check]')
-      should contain_exec('syslog_ng_syntax_check').that_notifies('Exec[syslog_ng_deploy_config]')
-      should contain_exec('syslog_ng_deploy_config').that_notifies('Exec[syslog_ng_reload]')
+      should contain_concat('/etc/syslog-ng/syslog-ng.conf').that_notifies('Exec[syslog_ng_reload]')
     }
-  end
-  context 'When asked not to check syntax before reload' do
-    let(:params) {{
-      :syntax_check_before_reloads => false
-    }}
-    it {
-      should contain_file('/tmp/syslog-ng.conf.tmp').that_notifies('Exec[syslog_ng_deploy_config]')
-      should contain_exec('syslog_ng_deploy_config').that_notifies('Exec[syslog_ng_reload]')
-    }
+    context 'and asked to check syntax before reload' do
+      let(:params) {{
+        :syntax_check_before_reloads => true
+      }}
+      it {
+        should contain_concat('/etc/syslog-ng/syslog-ng.conf').with_validate_cmd(/syntax-only/)
+      }
+    end
+    context 'and asked not to check syntax before reload' do
+      let(:params) {{
+        :syntax_check_before_reloads => false
+      }}
+      it {
+        should contain_concat('/etc/syslog-ng/syslog-ng.conf').without_validate_cmd
+      }
+    end
   end
 end

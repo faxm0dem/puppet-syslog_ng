@@ -5,17 +5,12 @@ class syslog_ng::reload (
   include syslog_ng::params
 
   $config_file     = $::syslog_ng::config_file
-  $tmp_config_file = $::syslog_ng::params::tmp_config_file
   $exec_path = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:'
 
   $syslog_ng_ctl_full_path = "${::syslog_ng::sbin_path}/syslog-ng-ctl"
   $syslog_ng_full_path = "${::syslog_ng::sbin_path}/syslog-ng"
 
-  exec { 'syslog_ng_syntax_check':
-    command     => "${syslog_ng_full_path} --syntax-only --cfgfile ${tmp_config_file}",
-    path        => $exec_path,
-    refreshonly => true
-  }
+  $syslog_ng_syntax_check_cmd = "${syslog_ng_full_path} --syntax-only --cfgfile %"
 
   notice("syslog_ng::reload: syntax_check_before_reloads=${syntax_check_before_reloads}")
 
@@ -27,15 +22,10 @@ class syslog_ng::reload (
     logoutput   => true,
   }
   
-  exec { 'syslog_ng_deploy_config':
-    command     => "cp ${tmp_config_file} ${config_file}",
-    path        => $exec_path,
-    refreshonly => true
-  }
-
   if $syntax_check_before_reloads {
-    File[$tmp_config_file] ~> Exec['syslog_ng_syntax_check'] ~> Exec['syslog_ng_deploy_config'] ~> Exec['syslog_ng_reload']
+    Concat <| title == $config_file |> { validate_cmd => $syslog_ng_syntax_check_cmd }
   } else {
-    File[$tmp_config_file] ~>                                   Exec['syslog_ng_deploy_config'] ~> Exec['syslog_ng_reload']
+    Concat <| title == $config_file |>
   }
+  Concat[$config_file] ~> Exec['syslog_ng_reload']
 }
