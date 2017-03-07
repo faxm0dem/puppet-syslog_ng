@@ -1,9 +1,9 @@
 define syslog_ng::filter (
-  $params = []
+  $params = [],
+  $order = '50'
 ) {
   $type = 'filter'
   $id = $title
-  $order = '50'
 
   concat::fragment { "syslog_ng::filter ${title}":
     target  => $::syslog_ng::config_file,
