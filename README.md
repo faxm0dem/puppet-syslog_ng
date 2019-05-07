@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use [ccin2p3/puppet-syslog_ng](https://github.com/ccin2p3/puppet-syslog_ng) instead
+
 # syslog_ng
 
 [![Build Status](https://travis-ci.org/ihrwein/puppet-syslog_ng.png?branch=master)](https://travis-ci.org/ihrwein/puppet-syslog_ng)
